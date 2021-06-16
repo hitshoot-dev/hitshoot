@@ -1,0 +1,54 @@
+{{#>include/header}}
+    <link rel="stylesheet" href="/css/search.css">
+{{/include/header}}
+{{#if showForm}}
+    <div class="center">
+        <h1>Search</h1>
+        <form id="main-search-form" action="" method="GET">
+            <input type="text" name="query" placeholder="Enter your search term...">
+            <input type="submit" value="Go">
+        </form>
+    </div>
+{{else}}
+    <center>
+        <div id="content-container">
+            <h1 class="center">Search</h1>
+            <form id="search-form" action="" method="GET">
+                <input type="text" name="query" placeholder="Enter your search term..." value="{{query}}">
+                <input type="submit" value="Go">
+                <div id="search-options">
+                    Search for
+                    <select name="kind">
+                        <option value="video" {{#ifEquals kind "video"}}selected{{/ifEquals}}>Videos</option>
+                        <option value="channel" {{#ifEquals kind "channel"}}selected{{/ifEquals}}>Channels</option>
+                    </select>
+                    that are
+                    <select name="duration">
+                        <option value="" {{#ifEquals duration ""}}selected{{/ifEquals}}>Any</option>
+                        <option value="short" {{#ifEquals duration "short"}}selected{{/ifEquals}}>0-5 minutes</option>
+                        <option value="medium" {{#ifEquals duration "medium"}}selected{{/ifEquals}}>5-20 minutes</option>
+                        <option value="long" {{#ifEquals duration "long"}}selected{{/ifEquals}}>20+ minutes</option>
+                        <option value="feature" {{#ifEquals duration "feature"}}selected{{/ifEquals}}>45+ minutes</option>
+                    </select>
+                    long, and sort by
+                    <select name="sort">
+                        <option value="" {{#ifEquals sort ""}}selected{{/ifEquals}}>Relevance</option>
+                        <option value="new" {{#ifEquals sort "new"}}selected{{/ifEquals}}>Newest videos first</option>
+                        <option value="old" {{#ifEquals sort "old"}}selected{{/ifEquals}}>Oldest videos first</option>
+                    </select>
+                </div>
+            </form>
+            <div id="result-area">
+                {{#if results}}
+                    <p>Showing {{resultsCount}} or {{totalResults}} total results.</p>
+                    {{#each results}}
+
+                    {{/each}}
+                {{else}}
+                    <i>No results</i>
+                {{/if}}
+            </div>
+        </div>
+    </center>
+{{/if}}
+{{#>include/footer}}{{/include/footer}}

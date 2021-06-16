@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {{#if pageTitle}}
+        <title>{{pageTitle}} - {{config.app.name}}</title>
+    {{else}}
+        <title>{{config.app.name}}</title>
+    {{/if}}
+    <link rel="stylesheet" href="/css/style.css">
+    {{>@partial-block}}
+</head>
+<body>
+    <div id="header">
+        <div id="header-title"><a href="/">{{config.app.name}}</a></div>
+        <form id="header-search-form" action="/search" method="GET">
+            <input type="text" name="query" placeholder="Search">
+            <input type="submit" value="Go">
+        </form>
+    </div>
+    {{#if errorMessage}}
+        <div class="error-box">
+            <span class="error-message">{{errorMessage}}</span>
+        </div>
+    {{/if}}
+    <div id="content">

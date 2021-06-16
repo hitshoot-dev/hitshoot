@@ -1,0 +1,101 @@
+# !!! DO NOT CHANGE THIS VALUE, IT IS MANAGED BY THE APPLICATION !!! #
+formatVersion: 0
+
+# This is the HitShoot configuration file, where all the application behavior is defined.
+# The defaults are designed to work on most machines, and you probably won't NEED to change anything, other than the database connection details.
+# If you are running behind a reverse proxy such as Nginx, the only thing you need to do is change server.usingReverseProxy to true.
+# Note that any of these options can be overridden by command-line arguments such as:
+# --config "server.port:8080"
+
+# Application server
+server:
+    # The hostname or IP address to bind to
+    # Default ("0.0.0.0") binds to all available interfaces
+    host: "0.0.0.0"
+
+    # The port to bind to
+    port: 8080
+
+    # Whether the server is running behind a reverse proxy, such as Nginx
+    usingReverseProxy: false
+
+    # How many worker threads to have in a pool for CPU-intensive operations
+    # Keep in mind that this is not the same thread pool that is used for transcoding media, see transcoding.workerThreads
+    workerThreads: 10
+
+    # The User-Agent header to send along with requests to BitChute
+    # You probably won't need to change this, the default makes requests appear as if they're coming from a Chrome browser
+    userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36"
+
+    # The amount of API client connections to keep in a pool for connecting to BitChute
+    # If you have a lot of visitors, you may need more than the default
+    connectionPoolSize: 10
+
+    # Whether to show error messages on the error page
+    # Disable this if you are worried about details of your server possibly being exposed to visitors
+    showErrorMessages: true
+
+    # Whether to show full stack traces on the error page
+    # Requires showErrorMessages to be true, or this setting will have no effect
+    showErrorStackTraces: true
+
+# Application
+app:
+    # The name that shows up on pages
+    # This can be whatever you want, such as "AwesomeChute" or something, it doesn't affect how anything runs
+    name: "HitShoot"
+
+    # Whether to proxy media via HitShoot rather than linking directly to BitChute
+    # If this is enabled, site visitors will never send requests to BitChute
+    proxyMedia: true
+
+    # The contact method to display at the bottom of pages or other locations
+    # This doesn't have to be an email, it can be any HTML you want, but its purpose is a contact method
+    contactLink: "<a href=\"mailto:example@example.com\">example@example.com</a>"
+
+    # The software project's URL
+    # If you aren't running the official version of the software, or you simply want to link somewhere else, you can change this
+    projectUrl: "https://github.com/hitshoot-dev/hitshoot"
+
+# This will be used in a future release
+## PostgreSQL database
+#db:
+#    # The DB server host
+#    host: "localhost"
+#
+#    # The DB server port
+#    port: 5432
+#
+#    # The DB name
+#    name: "hitshoot"
+#
+#    # The user to authenticate as
+#    user: "someone"
+#
+#    # The user's password
+#    pass: "TheBestPassword&1337&"
+#
+#    # The max amount of DB connection to keep in a pool
+#    maxPoolSize: 5
+
+# Media transcoding
+transcoding:
+    # Whether the option of using media transcoding should be available
+    # This is disabled by default because it is very CPU-intensive and does not scale well
+    # This can safely be enabled on small instances with few users, but the more people using it, the slower your server will be
+    enable: false
+
+    # Whether to enable transcoding to video
+    # Requires transcoding to be enabled
+    enableVideo: true
+
+    # Whether to enable transcoding to audio
+    # Requires transcoding to be enabled
+    enableAudio: true
+
+    # Where ffmpeg is located (required for transcoding)
+    ffmpegPath: "/usr/bin/ffmpeg"
+
+    # The amount of worker threads to use for executing ffmpeg
+    # This is effectively the limit of how many concurrent transcoding streams can be opened at once
+    workerThreads: 5
