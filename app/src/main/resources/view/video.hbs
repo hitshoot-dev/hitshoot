@@ -1,0 +1,51 @@
+{{#>include/header}}
+    <link rel="stylesheet" href="/css/video.css">
+
+    <meta name="description" content="{{description}}">
+    <meta name="author" content="{{channelName}}">
+
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    <meta property="og:image" content="{{image}}">
+    <meta property="og:url" content="/video/{{id}}/">
+
+    <meta name="twitter:title" content="{{title}}">
+    <meta name="twitter:description" content="{{description}}">
+    <meta name="twitter:image" content="{{image}}">
+    <meta name="twitter:card" content="summary_large_image">
+{{/include/header}}
+<center>
+    <div id="content-container">
+        <h1 id="title">{{title}}</h1>
+        <div id="player">
+            <video src="{{media videoUrl}}" poster="{{media image}}" controls></video>
+        </div>
+        <div id="info" class="module">
+            <p id="published">{{published}}</p>
+            <p id="views">{{viewCount}} views</p>
+            <p id="likes">{{likeCount}} likes, {{dislikeCount}} dislikes</p>
+            <div id="hashtags">
+                {{#each hashtags}}
+                    <div class="hashtag">{{this}}</div>
+                {{/each}}
+            </div>
+            <a id="original-link" href="{{originalUrl}}">Watch on BitChute</a>
+        </div>
+        <div id="channel" class="module">
+            <img id="channel-image" src="{{media channelImage}}">
+            <div id="channel-text">
+                <a id="channel-name" href="{{channelLink}}">{{profileName}}</a> <a href="{{channelLink}}rss/">(RSS)</a>
+                <br>
+                <a id="profile-name" href="{{profileLink}}">{{profileName}}</a>
+                <br>
+                <span id="subscribers">{{subscriberCount}} subscribers</span>
+            </div>
+        </div>
+        <div id="description" class="module">{{{descriptionHtml}}}</div>
+        <div id="comments" class="module">
+            <h2>Comments</h2>
+            <div id="comments-container">Loading... (not implemented yet)</div>
+        </div>
+    </div>
+</center>
+{{#>include/footer}}{{/include/footer}}

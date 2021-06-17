@@ -3,6 +3,7 @@ package hitshoot.route
 import hitshoot.App
 import hitshoot.controller.HomeController
 import hitshoot.controller.SearchController
+import hitshoot.controller.VideoController
 import hitshoot.util.renderPage
 import io.vertx.ext.web.Router
 import io.vertx.kotlin.coroutines.dispatcher
@@ -19,6 +20,7 @@ import kotlinx.coroutines.launch
 fun setupControllerRoutes(router: Router) {
 	val homeController = HomeController()
 	val searchController = SearchController()
+	val videoController = VideoController()
 
 	router.get("/").handler { r ->
 		GlobalScope.launch(App.vertx.dispatcher()) {
@@ -31,7 +33,7 @@ fun setupControllerRoutes(router: Router) {
 		}
 	}
 
-	router.get("/search").handler { r ->
+	router.get("/search/").handler { r ->
 		GlobalScope.launch(App.vertx.dispatcher()) {
 			try {
 				searchController.handle(r)
@@ -41,11 +43,22 @@ fun setupControllerRoutes(router: Router) {
 			}
 		}
 	}
-	router.post("/search").handler { r ->
+	router.post("/search/").handler { r ->
 		GlobalScope.launch(App.vertx.dispatcher()) {
 			try {
 				searchController.handle(r)
 				r.renderPage("search")
+			} catch(e: Throwable) {
+				r.fail(e)
+			}
+		}
+	}
+
+	router.get("/video/:id/").handler { r ->
+		GlobalScope.launch(App.vertx.dispatcher()) {
+			try {
+				videoController.get(r)
+				r.renderPage("video")
 			} catch(e: Throwable) {
 				r.fail(e)
 			}

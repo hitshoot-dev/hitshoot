@@ -12,3 +12,45 @@
 #search-options {
     margin-top: 10px;
 }
+#result-area {
+    text-align: left;
+}
+
+.result {
+    background: rgb(0, 0, 0, 0.3);
+    padding: 10px;
+    height: 220px;
+    margin-bottom: 10px;
+}
+.result-thumbnail {
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+}
+.result-thumbnail img {
+    width: 100%;
+}
+.result-thumbnail a {
+    display: block;
+    width: 200px;
+    height: 200px;
+}
+.result-info {
+    display: inline-block;
+    position: relative;
+    left: 10px;
+    height: 200px;
+    width: 560px;
+}
+.result-stats {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.result-description {
+    height: 120px;
+    overflow: auto;
+}
+.video-result .result-thumbnail {
+    position: relative;
+    bottom: 50px;
+}

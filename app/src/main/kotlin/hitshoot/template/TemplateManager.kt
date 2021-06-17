@@ -4,7 +4,9 @@ import com.github.jknack.handlebars.*
 import com.github.jknack.handlebars.cache.ConcurrentMapTemplateCache
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader
 import hitshoot.App
+import hitshoot.util.urlToMediaLink
 import java.io.InputStreamReader
+import java.net.URLEncoder
 import java.nio.file.FileSystemNotFoundException
 import java.nio.file.FileSystems
 import java.nio.file.Files
@@ -76,6 +78,8 @@ class TemplateManager {
 				options.inverse()
 			}
 		})
+		handlebars.registerHelper("urlencode", Helper<Any?> { context, _ -> URLEncoder.encode(context.toString(), "UTF-8")})
+		handlebars.registerHelper("media", Helper<Any?> { context, _ -> urlToMediaLink(context.toString()) })
 
 		// Clear cache
 		templates.clear()

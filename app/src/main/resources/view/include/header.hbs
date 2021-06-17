@@ -6,13 +6,17 @@
     {{else}}
         <title>{{config.app.name}}</title>
     {{/if}}
+
     <link rel="stylesheet" href="/css/style.css">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     {{>@partial-block}}
 </head>
 <body>
     <div id="header">
         <div id="header-title"><a href="/">{{config.app.name}}</a></div>
-        <form id="header-search-form" action="/search" method="GET">
+        <form id="header-search-form" action="/search/" method="GET">
             <input type="text" name="query" placeholder="Search">
             <input type="submit" value="Go">
         </form>

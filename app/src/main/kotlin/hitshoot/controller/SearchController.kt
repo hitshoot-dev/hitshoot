@@ -54,10 +54,10 @@ class SearchController {
 			}
 
 			// Fetch search
-			val res = Search.search(query, kind, duration, sort)
+			val res = Search.search(query, kind, duration, sort, page)
 
 			// Pagination info
-			val pages = ceil(res.total.toDouble()/res.count).toInt()
+			val pages = ceil(res.total.toDouble()/10).toInt()
 			val nextPage = if(page >= pages) null else r.request().path()+'?'+mapToQueryParams(mapOf(
 					"query" to query,
 					"kind" to kind,
@@ -84,7 +84,7 @@ class SearchController {
 			r.pageTitle("\"$query\" - Search")
 
 			// Put context data
-			r.putPaginationInfo(page, page, nextPage, lastPage)
+			r.putPaginationInfo(page, pages, nextPage, lastPage)
 			r
 					.put("results", res.results.toList())
 					.put("totalResults", res.total)

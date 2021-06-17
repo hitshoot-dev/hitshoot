@@ -1,4 +1,16 @@
-Current page: {{currentPage}}<br>
-Total pages: {{totalPages}}<br>
-Next page: {{nextPageLink}}<br>
-Last page: {{lastPageLink}}<br>
+<div class="page-nav">
+    {{#if lastPageLink}}
+        <a href="{{lastPageLink}}" class="page-nav-last-link">&lt;</a>
+        <a href="{{lastPageLink}}" class="page-nav-page">{{lastPage}}</a>
+    {{else}}
+        <span class="page-nav-last-link page-nav-disabled">&lt;</span>
+    {{/if}}
+    <span class="page-nav-page page-nav-current-page">{{currentPage}}</span>
+    {{#if nextPageLink}}
+        <a href="{{nextPageLink}}" class="page-nav-page">{{nextPage}}</a>
+        <a href="{{nextPageLink}}" class="page-nav-next-link">&gt;</a>
+    {{else}}
+        <span class="page-nav-next-link page-nav-disabled">&gt;</span>
+    {{/if}}
+    <span class="page-nav-stats">(Page {{currentPage}} of {{totalPages}})</span>
+</div>

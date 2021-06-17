@@ -24,7 +24,7 @@
                     </select>
                     that are
                     <select name="duration">
-                        <option value="" {{#ifEquals duration ""}}selected{{/ifEquals}}>Any</option>
+                        <option value="" {{#ifEquals duration ""}}selected{{/ifEquals}}>Any length</option>
                         <option value="short" {{#ifEquals duration "short"}}selected{{/ifEquals}}>0-5 minutes</option>
                         <option value="medium" {{#ifEquals duration "medium"}}selected{{/ifEquals}}>5-20 minutes</option>
                         <option value="long" {{#ifEquals duration "long"}}selected{{/ifEquals}}>20+ minutes</option>
@@ -40,10 +40,32 @@
             </form>
             <div id="result-area">
                 {{#if results}}
-                    <p>Showing {{resultsCount}} or {{totalResults}} total results.</p>
+                    <p>Showing {{resultsCount}} of {{totalResults}} total results.</p>
+                    {{>include/pagenav}}
                     {{#each results}}
-
+                        <div class="result {{#ifEquals kind "video"}}video-result{{else}}channel-result{{/ifEquals}}">
+                            <div class="result-thumbnail">
+                                <a href="{{path}}">
+                                    <img src="{{media images.thumbnail}}">
+                                </a>
+                            </div>
+                            <div class="result-info">
+                                <a href="{{path}}" class="result-title">{{name}}</a> |
+                                {{#ifEquals kind "video"}}
+                                    <a href="{{channelPath}}" class="result-channel">{{channelName}}</a>
+                                    <p class="result-stats">Views: {{views}}, duration: {{duration}}, sensitivity: {{sensitivity}}</p>
+                                    <div class="result-description">{{{description}}}</div>
+                                    <p class="result-published">Published {{published}}</p>
+                                {{else}}
+                                    <a href="{{creatorPath}}" class="result-profile">{{creatorName}}</a>
+                                    <p class="result-stats">Sensitivity: {{sensitivity}}</p>
+                                    <div class="result-description">{{{description}}}</div>
+                                    <p class="result-subscribers">{{subscribers}} subscribers</p>
+                                {{/ifEquals}}
+                            </div>
+                        </div>
                     {{/each}}
+                    {{>include/pagenav}}
                 {{else}}
                     <i>No results</i>
                 {{/if}}

@@ -1,0 +1,42 @@
+#content-container {
+    max-width: 1000px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+#player {
+
+}
+#player video {
+    width: 100%;
+}
+#info {
+    margin-bottom: 30px;
+}
+#info #hashtags {
+    margin-bottom: 15px;
+}
+#channel #channel-image {
+    width: 60px;
+}
+#channel #channel-text {
+    display: inline-block;
+}
+#channel #channel-name {
+    font-weight: bold;
+}
+#description {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.module {
+    text-align: left;
+    margin-bottom: 15px;
+}
+.hashtag {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    font-weight: bold;
+    cursor: default;
+}

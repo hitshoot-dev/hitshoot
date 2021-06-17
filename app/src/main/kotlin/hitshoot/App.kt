@@ -10,10 +10,7 @@ import hitshoot.App.vertxInstance
 import hitshoot.api.ApiClient
 import hitshoot.config.ConfigException
 import hitshoot.config.ConfigManager
-import hitshoot.route.setupControllerRoutes
-import hitshoot.route.setupMiddlewareRoutes
-import hitshoot.route.setupSpecialRoutes
-import hitshoot.route.setupStaticRoutes
+import hitshoot.route.*
 import hitshoot.template.TemplateManager
 import hitshoot.util.appDir
 import io.vertx.core.Vertx
@@ -152,6 +149,8 @@ fun main(args: Array<String>) {
             // Register routes
             setupMiddlewareRoutes(router)
             setupControllerRoutes(router)
+            setupProxyRoutes(router)
+            setupRssRoutes(router)
             setupStaticRoutes(router)
             setupSpecialRoutes(router)
 

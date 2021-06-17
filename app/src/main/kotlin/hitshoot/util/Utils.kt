@@ -8,6 +8,20 @@ import java.io.File
 import java.io.FileReader
 import java.io.FileWriter
 import java.net.URLEncoder
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+
+/**
+ * Pattern matching BitChute links
+ * @since 1.0.0
+ */
+val bitchuteLinkPattern = Pattern.compile("https?:\\/\\/([a-zA-Z0-9-]+\\.)?bitchute\\.com(\\/[-a-zA-Z0-9:;,@#%&()~_?\\+=\\/\\\\\\.]*)?")
+
+/**
+ * Pattern matching any valid URL
+ * @since 1.0.0
+ */
+val urlPattern: Pattern = Pattern.compile("(?:https?|file|c):(?:\\/{1,3}|\\\\{1})[-a-zA-Z0-9:;,@#%&()~_?\\+=\\/\\\\\\.]*")
 
 /**
  * Returns the directory path where the application resides on disk
@@ -127,4 +141,65 @@ fun RoutingContext.putPaginationInfo(currentPage: Int, totalPages: Int, nextPage
 	put("lastPage", if(currentPage <= 0) null else currentPage-1)
 	put("nextPageLink", if(currentPage >= totalPages) null else nextPageLink)
 	put("lastPageLink", if(currentPage <= 0) null else lastPageLink)
+}
+
+/**
+ * Returns whether the provided link is a BitChute URL
+ * @return Whether the provided link is a BitChute URL
+ * @since 1.0.0
+ */
+fun isBitChuteUrl(url: String) = bitchuteLinkPattern.matcher(url).matches()
+
+/**
+ * Returns whether the provided link is a valid URL
+ * @return Whether the provided link is a valid URL
+ * @since 1.0.0
+ */
+fun isValidUrl(url: String) = urlPattern.matcher(url).matches()
+
+/**
+ * Converts the provided URL to a media link.
+ * Returns the original URL if proxying is off, otherwise return the link as a proxied version.
+ * @param url The URL to convert
+ * @return The media link
+ * @since 1.0.0
+ */
+fun urlToMediaLink(url: String): String {
+	var link = url
+
+	// Prepend BitChute if not included
+	if(!link.startsWith("https://") && !link.startsWith("http://"))
+		link = App.apiClient.siteRoot+link
+
+
+	// Check if proxy is enabled
+	if(App.configManager.config.app.proxyMedia) {
+		// Check link against pattern
+		link = if(isBitChuteUrl(link)) {
+			// Proxy link
+			"/proxy?url=${URLEncoder.encode(link, "UTF-8")}"
+		} else {
+			// Doesn't match, just set link to blank
+			""
+		}
+	}
+
+	// Return processed link
+	return link
+}
+
+/**
+ * Like replace, but replaces matches with a function's return value
+ * @param regex The regex to replace
+ * @param func The function to use for replacements
+ * @return The processed String
+ * @since 1.0.0
+ */
+fun String.replaceWithFunction(regex: Pattern, func: java.util.function.Function<Matcher, String>): String {
+	val res = StringBuffer()
+	val matcher = regex.matcher(this)
+	while(matcher.find())
+		matcher.appendReplacement(res, func.apply(matcher))
+	matcher.appendTail(res)
+	return res.toString()
 }

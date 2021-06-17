@@ -91,7 +91,12 @@ class ApiClient {
 	 */
 	suspend fun refreshSession() {
 		clearCookies()
-		webSession.getAbs(siteRoot).send().await()
+
+		// Request a random page to obtain the CSRF token necessary to perform API requests
+		webSession.getAbs("$siteRoot/${Math.random()}/").send().await()
+
+		if(getCSRFToken() == null)
+			logger.warn("Failed to obtain a CSRF token, requests will fail!")
 	}
 
 	/**
@@ -193,8 +198,15 @@ class ApiClient {
 		}
 
 		// Check if 403 Forbidden
-		if(res.statusCode() == 403)
-			throw NoStackTraceThrowable("Server returned ${res.statusCode()} ${res.statusMessage()}")
+		if(res.statusCode() == 403) {
+			// Try to determine if this is the result of Cloudflare blocking it (fuck cloudflare)
+			val body = res.bodyAsString()
+
+			if(body.contains("CAPTCHA") && body.contains("Cloudflare"))
+				throw NoStackTraceThrowable("Server returned ${res.statusCode()} ${res.statusMessage()}. This seems to be the result of Cloudflare blocking automated traffic. Try again in a few hours.")
+			else
+				throw NoStackTraceThrowable("Server returned ${res.statusCode()} ${res.statusMessage()}")
+		}
 
 		// Send response
 		return res

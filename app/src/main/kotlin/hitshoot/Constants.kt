@@ -28,4 +28,35 @@ object Constants {
 	 * @since 1.0.0
 	 */
 	val CONFIG_VERSION: Int = 0
+
+	/**
+	 * Headers that are proxied from the client to the server by the media proxy
+	 * @since 1.0.0
+	 */
+	val PROXY_IN_HEADERS: Array<String> = arrayOf(
+			"Accept",
+			"Accept-Encoding",
+			"Accept-Language",
+			"Cache-Control",
+			"Pragma",
+			"User-Agent",
+			"Referer",
+			"Range"
+	)
+
+	/**
+	 * Headers that are proxied from the server to the client by the media proxy
+	 * @since 1.0.0
+	 */
+	val PROXY_OUT_HEADERS: Array<String> = arrayOf(
+			"Accept-Ranges",
+			"Vary",
+			"Cache-Control",
+			"Content-Length",
+			"Content-Type",
+			"Content-Range",
+			"Date",
+			"ETag",
+			"Last-Modified"
+	)
 }
